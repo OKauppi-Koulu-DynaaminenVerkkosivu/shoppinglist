@@ -9,7 +9,7 @@ function App() {
   const [item, setItem] = useState()
   const [amount, setAmount] = useState()
 
-  function fetchData() {
+  function fetchData () {
     axios.get(URL)
       .then((response) => {
         setItems(response.data)
@@ -18,15 +18,9 @@ function App() {
       })
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-  
-
   function save() {
     const json = JSON.stringify({description: item, amount: amount})
     const newURL = URL + 'new' + json
-    alert(newURL)
 
     axios.post(URL + 'new',json,{
       headers: {
@@ -46,20 +40,18 @@ function App() {
   
   function add1(id) {
     axios.post(`${URL}add/${id}`)
-    .then (
+    .then (() => {
       fetchData()
-    )
-    .catch (error => {
+    }, (error) => {
       alert(error.response.data.error)
     })
   }
 
   function remove1(id) {
     axios.post(`${URL}remove/${id}`)
-    .then (
+    .then (() => {
       fetchData()
-    )
-    .catch (error => {
+    }, (error) => {
       alert(error.response.data.error)
     })
   }
@@ -73,6 +65,10 @@ function App() {
       alert(error.response.data.error)
     })
   }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
   
   
   return (
@@ -83,7 +79,7 @@ function App() {
         <input value={item} onChange={e => setItem(e.target.value)} />
         <br />
         <label>Montako laitetaan?</label>
-        <input value={amount} onChange={f => setAmount(f.target.value)} />
+        <input value={amount} onChange={e => setAmount(e.target.value)} />
         <br />
         <button type='button' onClick={save}>Save</button>
       </form>
