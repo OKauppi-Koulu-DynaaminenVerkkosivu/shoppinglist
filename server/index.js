@@ -31,18 +31,14 @@ app.get('/', async (req, res) => {
     }
 })
 
-app.post('/new', async (req,res) => {
-
-    
+app.post('/new', async (req,res) => { 
         try {
             const connection = await mysql.createConnection(config.db)
             const [result,] = await connection.execute('INSERT INTO item (description,amount) VALUES (?, ?) ',[req.body.description, req.body.amount])
             res.status(200).json({id:result.insertId})
         } catch(err) {
             res.status(500).json({error: err.message})
-        }
-    
-    
+        }  
 })
 
 app.post('/add/:id', async (req,res) => {
