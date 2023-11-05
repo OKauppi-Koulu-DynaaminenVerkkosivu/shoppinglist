@@ -6,8 +6,8 @@ const URL = 'http://localhost:3001/'
 
 function App() {
   const [items, setItems] = useState([])
-  const [item, setItem] = useState()
-  const [amount, setAmount] = useState()
+  const [item, setItem] = useState('')
+  const [amount, setAmount] = useState('')
 
   function fetchData () {
     axios.get(URL)
@@ -70,22 +70,21 @@ function App() {
     fetchData()
   }, [])
   
-  
   return (
     <div>
-      <h3>shoppinglist</h3>
+      <h3>Kauppalistaa</h3>
       <form>
-        <label>Add new</label>
-        <input value={item} onChange={e => setItem(e.target.value)} />
+        <label>Lisätäänpä tuote: </label>
+        <input value={item} onChange={(e) => setItem(e.target.value)} />
         <br />
-        <label>Montako laitetaan?</label>
-        <input value={amount} onChange={e => setAmount(e.target.value)} />
+        <label>Montako laitetaan? </label>
+        <input type='number' value={amount} onChange={e => setAmount(e.target.value)} />
         <br />
-        <button type='button' onClick={save}>Save</button>
+        <button type='button' onClick={save} disabled={item === '' || amount < 1}>Tallenna lista</button>
       </form>
       <table>
         <tr>
-          <th>ID</th><th>Itemi</th><th>Määrä</th><th>Lisää 1</th><th>Vähennä 1</th><th>Poista</th>
+          <th>ID</th><th>Nimike</th><th>Määrä</th><th>Lisää 1</th><th>Vähennä 1</th><th>Poista</th>
         </tr>
         {items.map(item => (
           <tr>
